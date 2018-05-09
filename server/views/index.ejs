@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <p>Welcome to
+        <%= title %>
+    </p>
+    <div class="init">
+        <p>
+            <span>用户名：</span>
+            <input id="name" name="name" value="nametest" />
+        </p>
+        <p>
+            <span>口令:</span>
+            <input id="password" name="password" value="passwordtest" />
+        </p>
+        <p>
+            <span>数量：</span>
+            <input id="number" name="number" value="number" />
+        </p>
+    </div>
+    <button id="submit">提交</button>
+
+    <p>
+        <span>图像：</span>
+        <input id="picture" type="file" name="picture" />
+        <!--<button id="picSubmit">提交</button>-->
+    </p>
+    <div id="show">show</div>
+
+    <div class="share">
+        <p id="share">share id</p>
+    </div>
+</body>
+<script>
+    let submit = document.getElementById('submit');
+    let picSubmit = document.getElementById('picSubmit');
+    let show = document.getElementById('show');
+    let name = document.getElementById('name').value;
+    let password = document.getElementById('password').value;
+    let number = document.getElementById('number').value;
+    let picture = document.getElementById('picture');
+    let share = document.getElementById('share');
+    let pictureName = picture.tag;
+    picture.addEventListener('change', getFile)
+    share.onclick = function() {
+        let xhr = new XMLHttpRequest();
+        let tempId = this.innerHTML;
+        xhr.open('post', '/preview', true);
+        xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        xhr.onload = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log(1)
+                }
+            }
+        }
+        xhr.send(JSON.stringify({
+            tempId
+        }));
+    }
+
+
+    submit.addEventListener('click', () => {
+        let xhr = new XMLHttpRequest();
+        xhr.open('post', '/init', true);
+        xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        xhr.onload = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    show.innerHTML = xhr.responseText;
+                    share.innerHTML = xhr.responseText;
+                }
+            }
+        }
+        xhr.send(JSON.stringify({
+            name,
+            password,
+            number,
+            pictureName
+        }));
+    })
+
+    function getFile(e) {
+        let file = e.target.files[0],
+            formData = new FormData(),
+            xhr = new XMLHttpRequest();
+        formData.append('picture', file);
+        xhr.open('post', '/upload', true);
+        xhr.onload = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    pictureName = JSON.parse(xhr.responseText).result.picture;
+                }
+            }
+        }
+        xhr.send(formData);
+    }
+</script>
+
+</html>
