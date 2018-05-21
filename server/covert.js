@@ -1,8 +1,12 @@
-var ffmpeg = require('fluent-ffmpeg');
-var track = './test.mp3';//your path to source file
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
+const ffmpeg = require('fluent-ffmpeg');
 
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+// console.log(ffmpegInstaller.path, ffmpegInstaller.version);
+
+var track = './test.mp3';//your path to source file
 ffmpeg(track)
-.toFormat('wav')
+.format('wav')
 .on('error', function (err) {
     console.log('An error occurred: ' + err.message);
 })
@@ -14,3 +18,4 @@ ffmpeg(track)
     console.log('Processing finished !');
 })
 .save('./hello.wav');//path where you want to save your file
+

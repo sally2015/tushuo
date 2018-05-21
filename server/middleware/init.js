@@ -93,5 +93,8 @@ module.exports = function(req, res) {
                 tempId
             })
             res.send(result);
-        });
+        }).catch((err) => {
+            console.error('init error:' + err);
+            return res.status(500).send('init error:' + err);
+        })
 }
