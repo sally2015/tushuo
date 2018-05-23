@@ -34,6 +34,7 @@ module.exports = function(req, res) {
                                 success: 1,
                                 recoText
                             })
+                            res.send(result);
                         })
                         .catch((err) => {
                             console.log('baiduAPI error' + err)
@@ -41,6 +42,7 @@ module.exports = function(req, res) {
                                 success: -1,
                                 err
                             })
+                            res.send(result);
                         })
                 }).catch((err) => {
                     console.log('convert error' + err)
@@ -48,10 +50,8 @@ module.exports = function(req, res) {
                         success: -1,
                         err
                     })
-                    console.log(result, 'line 51')
+                    res.send(result);
                 })
-            console.log(result, 'line 53')
-            res.send(result);
         });
     } catch (e) {
         res.status(500).send(e);
