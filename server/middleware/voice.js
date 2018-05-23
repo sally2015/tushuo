@@ -19,8 +19,10 @@ module.exports = function(req, res) {
             voiceExt = 'mp3',
             voiceName = uuid() + '.' + voiceExt;
         voice.mv(path.resolve(serverDir, './upload', voiceName), (err) => {
-            if (err)
+            if (err) {
+                console.log('move error' + err)
                 return res.status(500).send(err);
+            }
             let source = path.resolve(serverDir, './upload', voiceName);
             let target = path.resolve(serverDir, './temp', voiceName);
             let result = null;
@@ -34,12 +36,14 @@ module.exports = function(req, res) {
                             })
                         })
                         .catch((err) => {
+                            console.log('baiduAPI error' + err)
                             result = new Result(0, {
                                 success: -1,
                                 err
                             })
                         })
                 }).catch((err) => {
+                    console.log('convert error' + err)
                     result = new Result(0, {
                         success: -1,
                         err
