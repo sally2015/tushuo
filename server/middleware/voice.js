@@ -48,9 +48,9 @@ module.exports = function(req, res) {
                         success: -1,
                         err
                     })
+                    console.log(result, 'line 51')
                 })
-            console.log('has arrive here')
-            console.log(result)
+            console.log(result, 'line 53')
             res.send(result);
         });
     } catch (e) {
