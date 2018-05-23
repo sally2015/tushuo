@@ -49,6 +49,7 @@ module.exports = function(req, res) {
                         err
                     })
                 })
+            console.log('has arrive here')
             res.send(result);
         });
     } catch (e) {
