@@ -50,6 +50,7 @@ module.exports = function(req, res) {
                     })
                 })
             console.log('has arrive here')
+            console.log(result)
             res.send(result);
         });
     } catch (e) {
