@@ -14,7 +14,7 @@ module.exports = function(target) {
     return new Promise((resolve, reject) => {
         fs.stat(target, (err, stat) => {
             if (stat && stat.isFile) {
-                let voice = fs.readFileSync('./test.wav');
+                let voice = fs.readFileSync(target);
                 let voiceBuffer = new Buffer(voice);
                 recognize(voiceBuffer)
                     .then((result) => {
