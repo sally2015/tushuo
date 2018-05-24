@@ -17,17 +17,19 @@ module.exports = function(req, res) {
     try {
         let voice = req.files.voice,
             voiceExt = 'mp3',
-            voiceName = uuid() + '.' + voiceExt;
+            voiceName = uuid() + '.' + voiceExt,
+            targetName = uuid() + '.wav';
         voice.mv(path.resolve(serverDir, './upload', voiceName), (err) => {
             if (err) {
                 console.log('move error' + err)
                 return res.status(500).send(err);
             }
             let source = path.resolve(serverDir, './upload', voiceName);
-            let target = path.resolve(serverDir, './temp', voiceName);
+            let target = path.resolve(serverDir, './temp', targetName);
             let result = null;
             mp3ToWav(source, target)
                 .then((target) => {
+                    console.log(target)
                     baiduApi(target)
                         .then((recoText) => {
                             result = new Result(0, {
